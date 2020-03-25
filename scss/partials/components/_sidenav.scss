@@ -8,6 +8,9 @@
             cursor: pointer;
             color: #d1d1d1;
         }
+        &.active{
+            color: white;
+        }
     }
     li.active a{
         color: white;

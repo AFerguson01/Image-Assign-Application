@@ -418,6 +418,8 @@ ul, ol {
     .pushy a:hover {
       cursor: pointer;
       color: #d1d1d1; }
+    .pushy a.active {
+      color: white; }
   .pushy li.active a {
     color: white; }
 

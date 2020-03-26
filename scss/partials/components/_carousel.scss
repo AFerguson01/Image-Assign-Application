@@ -1,0 +1,32 @@
+.carouselSec{
+    width: 70%;
+    margin: auto;
+
+    h1{
+        margin-top: 80px;
+    }
+    .carousel{
+        margin-bottom: 100px;
+        .img-container{
+            display: flex;
+            justify-content: space-around;
+
+            img{
+                max-height: 500px;
+                width: auto;
+            }
+        }
+    }
+}
+.slick-prev:before, .slick-next:before { 
+    color:rgb(0, 187, 131);
+}
+.slick-next{
+    margin-right: 400px;
+}
+.slick-prev{
+    margin-left: 400px;
+}
+.slick-dots{
+    bottom: -40px;
+}

@@ -1,7 +1,4 @@
-var initialized = false;
-
-const emails = {
-};
+const emails = {};                                                         
 
 function SearchPhotos(){
     let clientId = "g_EmLyty4c1G5wxRV0-hURnJ6SI7B5GjoiaaWWBtT00"
@@ -31,12 +28,14 @@ function SearchPhotos(){
 // Add email to emails object or if email already exists just add image.
 function AssignEmail(){
     const email = document.getElementById("assign").value;
-    const img = document.getElementById("image");
-    if (emails.hasOwnProperty(`${email}`)){
-        emails[`${email}`].img += img;
+    const img = new Image();
+    img.src = document.getElementById("image").getAttribute("src");
+    document.getElementById("assign").value = "";
+    if (emails.hasOwnProperty(`${email}`)){ 
+        emails[`${email}`].imgs.push(img);
     }else{
         emails[`${email}`] = {email: email, imgs: [img]};
-        UpdateSideNav(email);
+        UpdateSideNav(email);       
     }
 }
 
@@ -60,6 +59,38 @@ function SelectEmail(e){
         links[i].classList.remove("active");
     }
     link.classList.add("active");
+
+    ShowCarousel(link);
 }
 
+function ShowCarousel(link){
+    const carousel = document.querySelector(".carousel");
+    const email = link.innerHTML;
+    const imgsArray = emails[`${email}`].imgs;
+    const label = document.querySelector(".carouselSec h1");
+
+    // Clear current carousel.
+    carousel.innerHTML = "";
+    carousel.classList = "carousel";
+
+    // Sets label to email adress.
+    label.innerHTML = email;
+    
+    // Loops through images and adds them to a div element then add that div to the carousel.
+    for(let i=0; i<imgsArray.length;i++){
+        let container = document.createElement("DIV");
+        container.classList.add("img-container");
+        container.appendChild(imgsArray[i]);
+        carousel.appendChild(container);
+    }
+    
+    $('.carousel').slick({
+        dots: true,
+        arrows: true,
+        infinite: true,
+        speed: 500,
+        fade: true,
+        cssEase: 'linear'
+      });
+}
 

@@ -1,4 +1,6 @@
-const emails = {};                                                         
+const emails = {};     
+let initialized = false;     
+const err = document.getElementById("errormsg");                                               
 
 function SearchPhotos(){
     let clientId = "g_EmLyty4c1G5wxRV0-hURnJ6SI7B5GjoiaaWWBtT00"
@@ -27,18 +29,41 @@ function SearchPhotos(){
 
 // Add email to emails object or if email already exists just add image.
 function AssignEmail(){
-    const email = document.getElementById("assign").value;
-    const img = new Image();
-    img.src = document.getElementById("image").getAttribute("src");
-    document.getElementById("assign").value = "";
-    if (emails.hasOwnProperty(`${email}`)){ 
-        emails[`${email}`].imgs.push(img);
-    }else{
-        emails[`${email}`] = {email: email, imgs: [img]};
-        UpdateSideNav(email);       
+    if(ValidateEmail()){
+        err.style.display = "none";
+        const email = document.getElementById("assign").value;
+        const img = new Image();
+        img.src = document.getElementById("image").getAttribute("src");
+        if (emails.hasOwnProperty(`${email}`)){ 
+            emails[`${email}`].imgs.push(img);
+        }else{
+            emails[`${email}`] = {email: email, imgs: [img]};
+            UpdateSideNav(email);       
+        }
     }
+    else{
+        err.style.display = "block";
+    }
+    document.getElementById("assign").value = "";
 }
 
+function ValidateEmail(){
+    $(".error").hide();
+    var hasError = false;
+
+    const emailaddressVal = document.getElementById("assign").value;
+    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+
+    // Check for empty field.
+    if(emailaddressVal == '') {
+        hasError = true;
+    } else if(!emailReg.test(emailaddressVal)) {
+        hasError = true;
+    }
+
+    if(hasError == true) { return false; }
+    else { return true; }
+}
 
 // Create an email and append it to the sidenav
 function UpdateSideNav(email){

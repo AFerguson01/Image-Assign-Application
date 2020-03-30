@@ -1,6 +1,8 @@
 const emails = {};     
 let initialized = false;     
-const err = document.getElementById("errormsg");                                               
+const err = document.getElementById("errormsg");         
+const errMsg1 = `<img src="img/ErrorMsg.png" alt="Not Results Found" id="image">`;     
+const errMsg2 = `<img src="img/ErrorMsg2.png" alt="Not Results Found" id="image">`;                                 
 
 function SearchPhotos(){
     let clientId = "g_EmLyty4c1G5wxRV0-hURnJ6SI7B5GjoiaaWWBtT00"
@@ -18,11 +20,24 @@ function SearchPhotos(){
 
     fetch(url)
         .then(function(data){
-            return data.json();
+            if (data.status >= 200 && data.status <= 299) {
+                return data.json();
+              } else {
+                $("#result").html(errMsg2);
+                throw Error(data.statusText);
+            }
         })
         .then(function(data){
-            let result = `<img src="${data.results[0].urls.regular}" alt="${query} img" id="image">`;
-            $("#result").html(result);
+            try{
+                let result = `<img src="${data.results[0].urls.regular}" alt="${query} img" id="image">`;
+                $("#result").html(result);
+            }catch{
+                $("#result").html(errMsg1);
+            }
+        })
+        .catch(function(error){
+            throw Error("A Network Error Occured");
+            $("#result").html(errMsg2);
         })
 }
 
